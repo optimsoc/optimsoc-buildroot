@@ -1,0 +1,52 @@
+diff --git a/src/soc/sw/buildroot-linux/board/compute_tile_singlecore/compute_tile_singlecore.dts b/src/soc/sw/buildroot-linux/board/compute_tile_singlecore/compute_tile_singlecore.dts
+new file mode 100644
+index 0000000..3bd52e1
+--- /dev/null
++++ b/arch/openrisc/boot/dts/compute_tile_singlecore.dts
+@@ -0,0 +1,46 @@
++/dts-v1/;
++/ {
++	compatible = "opencores,or1ksim";
++	#address-cells = <1>;
++	#size-cells = <1>;
++	interrupt-parent = <&pic>;
++
++	chosen {
++		bootargs = "earlycon=uart8250,mmio,0x90000000,115200  console=ttyS0,115200";
++		stdout-path = &serial0;
++	};
++
++	memory@0 {
++		device_type = "memory";
++		reg = <0x00000000 0x02000000>;
++	};
++
++	cpus {
++		#address-cells = <1>;
++		#size-cells = <0>;
++		cpu@0 {
++			compatible = "opencores,or1200-rtlsvn481";
++			reg = <0>;
++			clock-frequency = <50000000>;
++		};
++	};
++
++	/*
++	 * OR1K PIC is built into CPU and accessed via special purpose
++	 * registers.  It is not addressable and, hence, has no 'reg'
++	 * property.
++	 */
++	pic: pic {
++		compatible = "opencores,or1k-pic-level";
++		#interrupt-cells = <1>;
++		interrupt-controller;
++	};
++
++	serial0: serial@90000000 {
++		status = "okay";
++		compatible = "opencores,uart16550-rtlsvn105", "ns16550a";
++		reg = <0x90000000 0x100>;
++		interrupts = <2>;
++		clock-frequency = <50000000>;
++	};
++};
