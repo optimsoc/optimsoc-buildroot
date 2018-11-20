@@ -1,0 +1,1 @@
+source "$BR2_EXTERNAL_OPTIMSOC_PATH/package/pacman4console/Config.in"
